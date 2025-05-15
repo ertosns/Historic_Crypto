@@ -30,7 +30,7 @@ class HistoricalData(object):
                  granularity,
                  start_date,
                  end_date,
-                 verbose=True):
+                 verbose=False):
         end_date = str(end_date)
         if verbose:
             print("Checking input parameters are in the correct format.")
@@ -173,10 +173,11 @@ class HistoricalData(object):
                         data = pd.concat([data, dataset])
                         time.sleep(randint(0, 2))
                     else:
-                        print("""CoinBase Pro API did not have available data for '{}' beginning at {}.
-                        Trying a later date:'{}'""".format(self.ticker,
-                                                           self.start_date,
-                                                           provisional_start))
+                        if verbose:
+                            print("""CoinBase Pro API did not have available data for '{}' beginning at {}.
+                            Trying a later date:'{}'""".format(self.ticker,
+                                                               self.start_date,
+                                                               provisional_start))
                         time.sleep(randint(0, 2))
                 elif response.status_code in [400, 401, 404]:
                     if self.verbose:
